@@ -12,32 +12,8 @@ from colorama import init, Fore
 init(autoreset=True)
 
 print("=" * 60)
-print(Fore.CYAN + "🚀 ORBIT AD WORKER - DELAY CONTROL VERSION")
+print(Fore.CYAN + "🚀 ORBIT AD WORKER - RELIABLE VERSION")
 print("=" * 60)
-
-def load_worker_config(user_id):
-    """Load delay settings for this worker"""
-    config_file = f"worker_config_{user_id}.json"
-    try:
-        with open(config_file, 'r') as f:
-            config = json.load(f)
-            delays = config.get("delays", {
-                "between_groups_min": 60,
-                "between_groups_max": 120,
-                "cycle_delay_min": 900,
-                "cycle_delay_max": 1500
-            })
-            target_user = config.get("target_user", "")
-            return delays, target_user
-    except:
-        # Default delays if config not found
-        default_delays = {
-            "between_groups_min": 60,
-            "between_groups_max": 120,
-            "cycle_delay_min": 900,
-            "cycle_delay_max": 1500
-        }
-        return default_delays, ""
 
 def get_user_id_from_args():
     if len(sys.argv) > 1:
@@ -107,7 +83,7 @@ def load_user_sessions(user_id=None):
     print(Fore.GREEN + f"✅ Total sessions loaded: {len(accounts)}")
     return accounts
 
-async def process_account(account_data, target_user, cycle_num, acc_num, total_accounts, delays):
+async def process_account(account_data, target_user, cycle_num, acc_num, total_accounts):
     try:
         session_name = account_data["file"].replace(".json", "")
         print(Fore.CYAN + f"\n[{cycle_num}.{acc_num}/{total_accounts}] {session_name}")
@@ -178,16 +154,10 @@ async def process_account(account_data, target_user, cycle_num, acc_num, total_a
                 groups_sent += 1
                 print(Fore.GREEN + f"✅ [{i}] Sent to: {group_title}")
                 
-                # Wait between groups (using user's delay settings)
+                # Wait between groups (1-2 minutes)
                 if i < len(groups_to_process):
-                    wait_time = random.randint(
-                        delays["between_groups_min"], 
-                        delays["between_groups_max"]
-                    )
-                    mins = wait_time // 60
-                    secs = wait_time % 60
-                    time_str = f"{mins}m {secs}s" if mins > 0 else f"{secs}s"
-                    print(Fore.BLUE + f"⏳ Waiting {time_str}... (User setting)")
+                    wait_time = random.randint(60, 120)
+                    print(Fore.BLUE + f"⏳ Waiting {wait_time//60}m {wait_time%60}s...")
                     await asyncio.sleep(wait_time)
                 
             except Exception as e:
@@ -209,15 +179,14 @@ async def process_account(account_data, target_user, cycle_num, acc_num, total_a
         print(Fore.RED + f"❌ Critical error: {e}")
         return False
 
-async def process_all_accounts_parallel(accounts, target_user, cycle_num, delays):
+async def process_all_accounts_parallel(accounts, target_user, cycle_num):
     print(Fore.CYAN + f"\n🔄 CYCLE #{cycle_num}")
     print(Fore.CYAN + f"📱 Processing {len(accounts)} accounts")
-    print(Fore.CYAN + f"⏱️ Delays: {delays['between_groups_min']}-{delays['between_groups_max']}s between groups")
     print(Fore.WHITE + "=" * 50)
     
     tasks = []
     for i, account in enumerate(accounts, 1):
-        task = process_account(account, target_user, cycle_num, i, len(accounts), delays)
+        task = process_account(account, target_user, cycle_num, i, len(accounts))
         tasks.append(task)
     
     print(Fore.YELLOW + f"\n⚡ Starting parallel processing...")
@@ -260,24 +229,13 @@ def should_stop(user_id):
 
 async def main_worker():
     user_id = get_user_id_from_args()
-    
-    # Load delay settings for this user
-    delays, config_target = load_worker_config(user_id)
-    
-    # Get target user (prefer config target, fallback to main config)
-    target_user = config_target
-    if not target_user:
-        main_config = load_config()
-        target_user = main_config.get("target_user", "")
+    config = load_config()
+    target_user = config.get("target_user", "")
     
     if not target_user:
         print(Fore.RED + "❌ ERROR: No target user set!")
         print(Fore.YELLOW + "👉 Set target in bot first")
         return
-    
-    print(Fore.CYAN + f"\n⏱️ DELAY SETTINGS FOR USER {user_id}:")
-    print(Fore.WHITE + f"• Between groups: {delays['between_groups_min']}-{delays['between_groups_max']} seconds")
-    print(Fore.WHITE + f"• Between cycles: {delays['cycle_delay_min']//60}-{delays['cycle_delay_max']//60} minutes")
     
     # Load sessions for this user
     accounts = load_user_sessions(user_id)
@@ -294,7 +252,6 @@ async def main_worker():
     print(Fore.WHITE + f"• Target: @{target_user}")
     print(Fore.WHITE + f"• Accounts: {len(accounts)}")
     print(Fore.WHITE + f"• Mode: {'User Specific' if user_id else 'All Sessions'}")
-    print(Fore.WHITE + f"• Delays: {delays['between_groups_min']}-{delays['between_groups_max']}s | {delays['cycle_delay_min']//60}-{delays['cycle_delay_max']//60}m")
     print(Fore.WHITE + "=" * 50)
     
     cycle = 1
@@ -304,7 +261,7 @@ async def main_worker():
             break
         
         # Process accounts
-        successful = await process_all_accounts_parallel(accounts, target_user, cycle, delays)
+        successful = await process_all_accounts_parallel(accounts, target_user, cycle)
         
         # Check if we should stop after cycle
         if should_stop(user_id):
@@ -312,23 +269,15 @@ async def main_worker():
         
         print(Fore.CYAN + f"\n✅ CYCLE #{cycle} COMPLETE")
         
-        # Wait between cycles using user's delay settings
-        wait_time = random.randint(delays["cycle_delay_min"], delays["cycle_delay_max"])
-        wait_minutes = wait_time // 60
-        
-        print(Fore.YELLOW + f"⏳ Waiting {wait_minutes} minutes before next cycle... (User setting)")
+        # Wait 15-25 minutes between cycles
+        wait_time = random.randint(900, 1500)  # 15-25 minutes in seconds
+        print(Fore.YELLOW + f"⏳ Waiting {wait_time//60} minutes before next cycle...")
         
         # Check for stop signal during wait
-        check_interval = 10  # Check every 10 seconds
-        for _ in range(wait_time // check_interval):
+        for _ in range(wait_time // 10):  # Check every 10 seconds
             if should_stop(user_id):
                 return
-            await asyncio.sleep(check_interval)
-        
-        # Handle any remaining time
-        remaining_time = wait_time % check_interval
-        if remaining_time > 0 and not should_stop(user_id):
-            await asyncio.sleep(remaining_time)
+            await asyncio.sleep(10)
         
         cycle += 1
         print(Fore.WHITE + "\n" + "=" * 50)
