@@ -1,1 +1,9 @@
-{"target_user": "Orgjhonysins"}
+{
+  "target_user": "",
+  "default_delays": {
+    "between_groups_min": 60,
+    "between_groups_max": 120,
+    "cycle_delay_min": 900,
+    "cycle_delay_max": 1500
+  }
+}
