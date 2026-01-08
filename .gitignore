@@ -1,0 +1,6 @@
+# DO NOT UPLOAD SENSITIVE FILES!
+allowed_users.json.backup
+orbit_master.session
+users/
+__pycache__/
+*.pyc
