@@ -11,7 +11,7 @@ from datetime import datetime
 # ============================================
 # CONFIGURATION
 # ============================================
-BOT_TOKEN = "YOUR_BOT_TOKEN_HERE"
+BOT_TOKEN = "7729368839:AAG5M6FwF2yGZ8nImUyIT0rCRnM2HD9RtdU"
 MAIN_ADMIN_ID = 8055434763
 MAIN_ADMIN_USERNAME = "@OrgJhonySins"
 
