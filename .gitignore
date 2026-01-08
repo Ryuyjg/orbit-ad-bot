@@ -4,3 +4,11 @@ orbit_master.session
 users/
 __pycache__/
 *.pyc
+
+# Session files - NEVER upload
+*.session
+session*
+
+# Session files - NEVER upload
+*.session
+session*
