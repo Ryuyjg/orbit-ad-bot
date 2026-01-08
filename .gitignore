@@ -1,14 +1,364 @@
-# DO NOT UPLOAD SENSITIVE FILES!
-allowed_users.json.backup
+# ============================================
+# SECRET FILES - NEVER UPLOAD THESE!
+# ============================================
+
+# Bot credentials
+secret.py
+secret_config.py
+secrets.py
+credentials.json
+config.enc
+key.key
+
+# Session files
+*.session
 orbit_master.session
+telethon.session
+*.session-journal
+
+# User session data
 users/
+admin_tdata/
+session_backups/
+
+# Config backups
+*.json.backup
+*.bak
+backup/
+
+# Worker configs
+worker_config_*.json
+
+# Stop signals
+stop_worker*.txt
+stop_ads.txt
+
+# ============================================
+# PYTHON FILES
+# ============================================
+
+# Byte-compiled / optimized / DLL files
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
 
-# Session files - NEVER upload
-*.session
-session*
+# C extensions
+*.so
 
-# Session files - NEVER upload
-*.session
-session*
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+.pybuilder/
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# poetry
+poetry.lock
+
+# pdm
+.pdm.toml
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# ============================================
+# OPERATING SYSTEM FILES
+# ============================================
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# ============================================
+# IDE & EDITOR FILES
+# ============================================
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# Atom
+.atom/
+.htaccess
+
+# Notepad++
+*.bak
+
+# ============================================
+# LOG FILES
+# ============================================
+
+# Application logs
+*.log
+logs/
+log/
+debug.log
+error.log
+
+# Telegram logs
+telethon.log
+telegram.log
+
+# Bot logs
+bot.log
+worker.log
+
+# ============================================
+# TEMPORARY FILES
+# ============================================
+
+# Temp files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Cache files
+.cache/
+
+# Database files
+*.db
+*.sqlite
+*.db-journal
+
+# ============================================
+# BOT SPECIFIC
+# ============================================
+
+# User data
+user_data/
+user_sessions/
+user_configs/
+
+# Media files
+media/
+downloads/
+photos/
+videos/
+
+# Generated files
+generated/
+output/
+exports/
+
+# Analytics
+analytics/
+stats/
+
+# ============================================
+# MISC
+# ============================================
+
+# Security
+*.pem
+*.key
+*.crt
+*.csr
+*.p12
+*.pfx
+
+# Compressed files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Documentation
+docs/build/
+docs/source/_build/
+
+# Testing
+test_output/
+test_results/
+
+# Project specific
+.project
+.settings/
+.metadata/
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Virtual machine
+.vagrant/
+Vagrantfile
+
+# ============================================
+# CUSTOM ENTRIES FOR ORBIT BOT
+# ============================================
+
+# Orbit Bot specific
+allowed_users.json.backup
+orbit_master.session.backup
+stop_all_workers.txt
+worker_pid.txt
+
+# User folders (pattern)
+user_*_tdata/
+admin_tdata/
+
+# Session pattern files
+session*.json
+telegram_*.json
+
+# API keys
+api_keys.txt
+tokens.txt
+
+# Database exports
+export_*.json
+backup_*.json
+
+# Statistics
+statistics.json
+usage_stats.json
+
+# Queue files
+queue_*.json
+pending_*.json
