@@ -15,7 +15,7 @@ from datetime import datetime
 # ============================================
 # CONFIGURATION
 # ============================================
-BOT_TOKEN = "7729368839:AAH1OWrXgzYUj-PFJIg0YN1Xo1FV3W1H1sQ"  # Replace with your actual bot token
+BOT_TOKEN = ""  # Replace with your actual bot token
 MAIN_ADMIN_ID = 8055434763
 MAIN_ADMIN_USERNAME = "@OrgJhonySins"
 
